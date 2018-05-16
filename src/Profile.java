@@ -53,7 +53,8 @@ public class Profile {
 						br.close();
 						fr.close();
 						File file = new File(home + File.separator + ".atom");
-						file.renameTo(new File(home + File.separator + ".atom-" + name));
+						File newFile = new File(home + File.separator + ".atom-" + name);
+						file.renameTo(newFile);
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -67,15 +68,14 @@ public class Profile {
 						PrintWriter writer = new PrintWriter(profileData, "UTF-8");
 						writer.println("Default");
 						writer.close();
-						file.renameTo(new File(home + File.separator + ".atom-default"));
 						File src = new File(this.getClass().getResource("atomIcon.png").getPath());
-						File dest = new File(home + File.separator + ".atom" + File.separator
-								+ "icon.png");
+						File dest = new File(home + File.separator + ".atom" + File.separator + "icon.png");
 						try {
 							Files.copy(src.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
+						file.renameTo(new File(home + File.separator + ".atom-default"));
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -119,8 +119,7 @@ public class Profile {
 		}
 		renameAllProfile();
 		new File(home + File.separator + ".atom").mkdir();
-		File profileData = new File(
-				home + File.separator + ".atom" + File.separator + "profileInfo.pi");
+		File profileData = new File(home + File.separator + ".atom" + File.separator + "profileInfo.pi");
 		try {
 			profileData.createNewFile();
 			PrintWriter writer = new PrintWriter(profileData, "UTF-8");
