@@ -9,10 +9,11 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class Profile {
 
 	private ArrayList<File> profiles;
+	private String home = System.getProperty("user.home");
 
 	public Profile() {
 		profiles = new ArrayList<File>();
-		String path = System.getProperty("user.home");
+		String path = home;
 		File defaultDirectory = new File(path);
 		File listFile[] = defaultDirectory.listFiles();
 		for (int i = 0; i < listFile.length; i++) {
@@ -24,7 +25,7 @@ public class Profile {
 
 	public void setProfiles() {
 		profiles = new ArrayList<File>();
-		String path = System.getProperty("user.home");
+		String path = home;
 		File defaultDirectory = new File(path);
 		File listFile[] = defaultDirectory.listFiles();
 		for (int i = 0; i < listFile.length; i++) {
@@ -40,7 +41,7 @@ public class Profile {
 	}
 
 	private void renameAllProfile() {
-		for (File sub : new File(System.getProperty("user.home")).listFiles()) {
+		for (File sub : new File(home).listFiles()) {
 			if (sub.isDirectory() && sub.getAbsolutePath().contains(".atom")) {
 				File profileData = new File(sub.getAbsolutePath() + File.separator + "profileInfo.pi");
 				if (profileData.exists()) {
@@ -51,14 +52,14 @@ public class Profile {
 						String name = br.readLine();
 						br.close();
 						fr.close();
-						File file = new File(System.getProperty("user.home") + File.separator + ".atom");
-						file.renameTo(new File(System.getProperty("user.home") + File.separator + ".atom-" + name));
+						File file = new File(home + File.separator + ".atom");
+						file.renameTo(new File(home + File.separator + ".atom-" + name));
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
 				} else {
 					try {
-						File file = new File(System.getProperty("user.home") + File.separator + ".atom");
+						File file = new File(home + File.separator + ".atom");
 						if (!file.exists()) {
 							return;
 						}
@@ -66,7 +67,15 @@ public class Profile {
 						PrintWriter writer = new PrintWriter(profileData, "UTF-8");
 						writer.println("Default");
 						writer.close();
-						file.renameTo(new File(System.getProperty("user.home") + File.separator + ".atom-default"));
+						file.renameTo(new File(home + File.separator + ".atom-default"));
+						File src = new File(this.getClass().getResource("atomIcon.png").getPath());
+						File dest = new File(home + File.separator + ".atom" + File.separator
+								+ "icon.png");
+						try {
+							Files.copy(src.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -81,7 +90,7 @@ public class Profile {
 		renameAllProfile();
 		setProfiles();
 
-		String name = System.getProperty("user.home") + File.separator + ".atom";
+		String name = home + File.separator + ".atom";
 		profiles.get(i).renameTo(new File(name));
 
 		setProfiles();
@@ -109,9 +118,9 @@ public class Profile {
 			input = JOptionPane.showInputDialog("Enter the name of the profile(cannot be empty):");
 		}
 		renameAllProfile();
-		new File(System.getProperty("user.home") + File.separator + ".atom").mkdir();
+		new File(home + File.separator + ".atom").mkdir();
 		File profileData = new File(
-				System.getProperty("user.home") + File.separator + ".atom" + File.separator + "profileInfo.pi");
+				home + File.separator + ".atom" + File.separator + "profileInfo.pi");
 		try {
 			profileData.createNewFile();
 			PrintWriter writer = new PrintWriter(profileData, "UTF-8");
@@ -123,7 +132,7 @@ public class Profile {
 
 		JFileChooser chooser = new JFileChooser();
 		chooser.addChoosableFileFilter(new FileNameExtensionFilter("Image files", ImageIO.getReaderFileSuffixes()));
-		chooser.setCurrentDirectory(new java.io.File(System.getProperty("user.home")));
+		chooser.setCurrentDirectory(new java.io.File(home));
 		chooser.setDialogTitle("Select icon for atom profile");
 		chooser.setAcceptAllFileFilterUsed(false);
 
@@ -131,7 +140,7 @@ public class Profile {
 			String name = chooser.getSelectedFile().getName();
 			name = "icon." + name.substring(name.length() - 3, name.length());
 			File src = chooser.getSelectedFile();
-			File dest = new File(System.getProperty("user.home") + File.separator + ".atom" + File.separator + name);
+			File dest = new File(home + File.separator + ".atom" + File.separator + name);
 			try {
 				Files.copy(src.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
 			} catch (IOException e) {

@@ -1,6 +1,8 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -8,7 +10,8 @@ import javax.swing.*;
 
 public class GUI {
 
-	String OS = System.getProperty("os.name").toLowerCase();
+	private String OS = System.getProperty("os.name").toLowerCase();
+	private String home = System.getProperty("user.home");
 
 	public GUI() {
 		Profile pr = new Profile();
@@ -48,12 +51,19 @@ public class GUI {
 				fr.close();
 			} catch (IOException e) {
 				try {
-					File profileData = new File(System.getProperty("user.home") + File.separator + ".atom"
-							+ File.separator + "profileInfo.pi");
+					File profileData = new File(home + File.separator + ".atom" + File.separator + "profileInfo.pi");
 					profileData.createNewFile();
 					PrintWriter writer = new PrintWriter(profileData, "UTF-8");
 					writer.println("Default");
 					writer.close();
+					File src = new File(this.getClass().getResource("atomIcon.png").getPath().replaceAll("%20", " "));
+					File dest = new File(home + File.separator + ".atom" + File.separator + "icon.png");
+					name = "default";
+					try {
+						Files.copy(src.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
 				} catch (IOException es) {
 					e.printStackTrace();
 				}
@@ -115,9 +125,10 @@ public class GUI {
 
 		JButton delite = new JButton("Delite");
 		delite.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser chooser = new JFileChooser();
-				chooser.setCurrentDirectory(new java.io.File(System.getProperty("user.home")));
+				chooser.setCurrentDirectory(new java.io.File(home));
 				chooser.setDialogTitle("Select atom profile");
 				chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 				chooser.setAcceptAllFileFilterUsed(false);
@@ -186,7 +197,7 @@ public class GUI {
 	}
 
 	private boolean isUnix() {
-		return (OS.indexOf("nix") >= 0 || OS.indexOf("nux") >= 0 || OS.indexOf("aix") > 0);
+		return (OS.indexOf("nix") >= 0 || OS.indexOf("nux") >= 0 || OS.indexOf("aix") >= 0 || OS.indexOf("bsd") >= 0);
 	}
 
 }
