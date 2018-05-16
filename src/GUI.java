@@ -78,6 +78,15 @@ public class GUI {
 						temp = new File(sub.getAbsolutePath());
 					}
 				}
+				if (temp == null) {
+					File src = new File(this.getClass().getResource("atomIcon.png").getPath());
+					File dest = new File(home + File.separator + ".atom" + File.separator + "icon.png");
+					try {
+						Files.copy(src.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
 				Image img = ImageIO.read(temp);
 				Dimension dim = getScaledDimension(
 						new Dimension(ImageIO.read(temp).getWidth(), ImageIO.read(temp).getHeight()),
@@ -91,14 +100,6 @@ public class GUI {
 				button.setVisible(true);
 			} catch (Exception ex) {
 				button.setText(name);
-				File src = new File(this.getClass().getResource("atomIcon.png").getPath().replaceAll("%20", " "));
-				File dest = new File(home + File.separator + ".atom" + File.separator + "icon.png");
-				name = "default";
-				try {
-					Files.copy(src.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
 				System.out.println(ex);
 			}
 			final int f = i;
