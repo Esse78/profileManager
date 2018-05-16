@@ -79,10 +79,11 @@ public class GUI {
 					}
 				}
 				if (temp == null) {
-					File src = new File(this.getClass().getResource("atomIcon.png").getPath());
+					File src = new File(this.getClass().getResource("atomIcon.png").getPath().replaceAll("%20", " "));
 					File dest = new File(home + File.separator + ".atom" + File.separator + "icon.png");
 					try {
 						Files.copy(src.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
+						temp = new File(dest.getAbsolutePath());
 					} catch (IOException e) {
 						e.printStackTrace();
 					}

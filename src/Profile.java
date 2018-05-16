@@ -21,6 +21,7 @@ public class Profile {
 				profiles.add(listFile[i]);
 			}
 		}
+		Collections.sort(profiles);
 	}
 
 	public void setProfiles() {
@@ -42,7 +43,8 @@ public class Profile {
 
 	private void renameAllProfile() {
 		for (File sub : new File(home).listFiles()) {
-			if (sub.isDirectory() && sub.getAbsolutePath().contains(".atom")) {
+			String path = sub.getAbsolutePath();
+			if (sub.isDirectory() && path.substring(path.length() - 5, path.length()).equals(".atom")) {
 				File profileData = new File(sub.getAbsolutePath() + File.separator + "profileInfo.pi");
 				if (profileData.exists()) {
 					FileReader fr;
@@ -54,7 +56,7 @@ public class Profile {
 						fr.close();
 						File file = new File(home + File.separator + ".atom");
 						File newFile = new File(home + File.separator + ".atom-" + name);
-						file.renameTo(newFile);
+						Files.move(file.toPath(), newFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
