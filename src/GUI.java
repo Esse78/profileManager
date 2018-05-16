@@ -83,8 +83,6 @@ public class GUI {
 				System.out.println(ex);
 			}
 			final int f = i;
-			final ImageIcon imgPop = iIcon;
-			final String namePop = name;
 			button.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					pr.setCurrentProfile(f);
@@ -101,24 +99,6 @@ public class GUI {
 							System.out.println("Your OS is not support!!");
 						}
 						frame.dispose();
-						JFrame popUp = new JFrame();
-						if (imgPop == null) {
-							popUp.add(new JLabel(namePop));
-						} else {
-							popUp.setIconImage(imgPop.getImage());
-							JButton buttonPop = new JButton(imgPop);
-							buttonPop.setOpaque(false);
-							buttonPop.setContentAreaFilled(false);
-							buttonPop.setBorderPainted(false);
-							buttonPop.setVisible(true);
-							buttonPop.setEnabled(false);
-							popUp.add(buttonPop);
-						}
-						popUp.setVisible(true);
-						popUp.repaint();
-						popUp.pack();
-						popUp.setAlwaysOnTop(true);
-						popUp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
