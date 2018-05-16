@@ -42,7 +42,7 @@ public class Profile {
 	private void renameAllProfile() {
 		for (File sub : new File(System.getProperty("user.home")).listFiles()) {
 			if (sub.isDirectory() && sub.getAbsolutePath().contains(".atom")) {
-				File profileData = new File(sub.getAbsolutePath() + "\\profileInfo.pi");
+				File profileData = new File(sub.getAbsolutePath() + File.separator + "profileInfo.pi");
 				if (profileData.exists()) {
 					FileReader fr;
 					try {
@@ -51,14 +51,14 @@ public class Profile {
 						String name = br.readLine();
 						br.close();
 						fr.close();
-						File file = new File(System.getProperty("user.home") + "\\.atom");
-						file.renameTo(new File(System.getProperty("user.home") + "\\.atom-" + name));
+						File file = new File(System.getProperty("user.home") + File.separator + ".atom");
+						file.renameTo(new File(System.getProperty("user.home") + File.separator + ".atom-" + name));
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
 				} else {
 					try {
-						File file = new File(System.getProperty("user.home") + "\\.atom");
+						File file = new File(System.getProperty("user.home") + File.separator + ".atom");
 						if (!file.exists()) {
 							return;
 						}
@@ -66,7 +66,7 @@ public class Profile {
 						PrintWriter writer = new PrintWriter(profileData, "UTF-8");
 						writer.println("Default");
 						writer.close();
-						file.renameTo(new File(System.getProperty("user.home") + "\\.atom-default"));
+						file.renameTo(new File(System.getProperty("user.home") + File.separator + ".atom-default"));
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -81,7 +81,7 @@ public class Profile {
 		renameAllProfile();
 		setProfiles();
 
-		String name = System.getProperty("user.home") + "\\.atom";
+		String name = System.getProperty("user.home") + File.separator + ".atom";
 		profiles.get(i).renameTo(new File(name));
 
 		setProfiles();
@@ -109,8 +109,9 @@ public class Profile {
 			input = JOptionPane.showInputDialog("Enter the name of the profile(cannot be empty):");
 		}
 		renameAllProfile();
-		new File(System.getProperty("user.home") + "\\.atom").mkdir();
-		File profileData = new File(System.getProperty("user.home") + "\\.atom\\profileInfo.pi");
+		new File(System.getProperty("user.home") + File.separator + ".atom").mkdir();
+		File profileData = new File(
+				System.getProperty("user.home") + File.separator + ".atom" + File.separator + "profileInfo.pi");
 		try {
 			profileData.createNewFile();
 			PrintWriter writer = new PrintWriter(profileData, "UTF-8");
@@ -130,7 +131,7 @@ public class Profile {
 			String name = chooser.getSelectedFile().getName();
 			name = "icon." + name.substring(name.length() - 3, name.length());
 			File src = chooser.getSelectedFile();
-			File dest = new File(System.getProperty("user.home") + "\\.atom\\" + name);
+			File dest = new File(System.getProperty("user.home") + File.separator + ".atom" + File.separator + name);
 			try {
 				Files.copy(src.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
 			} catch (IOException e) {

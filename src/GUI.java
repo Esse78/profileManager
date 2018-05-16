@@ -41,14 +41,15 @@ public class GUI {
 			String name = null;
 			FileReader fr;
 			try {
-				fr = new FileReader(profiles.get(i).getAbsolutePath() + "\\profileInfo.pi");
+				fr = new FileReader(profiles.get(i).getAbsolutePath() + File.separator + "profileInfo.pi");
 				BufferedReader br = new BufferedReader(fr);
 				name = br.readLine();
 				br.close();
 				fr.close();
 			} catch (IOException e) {
 				try {
-					File profileData = new File(System.getProperty("user.home") + "\\.atom\\profileInfo.pi");
+					File profileData = new File(System.getProperty("user.home") + File.separator + ".atom"
+							+ File.separator + "profileInfo.pi");
 					profileData.createNewFile();
 					PrintWriter writer = new PrintWriter(profileData, "UTF-8");
 					writer.println("Default");
@@ -90,10 +91,10 @@ public class GUI {
 						if (isWindows()) {
 							Runtime.getRuntime().exec("cmd /c atom");
 						} else if (isMac()) {
-							String[] cmd = { "/bin/sh", "-c", "atom" };
+							String[] cmd = { File.separator + "bin" + File.separator + "sh", "-c", "atom" };
 							Runtime.getRuntime().exec(cmd);
 						} else if (isUnix()) {
-							String[] cmd = { "/bin/sh", "-c", "atom" };
+							String[] cmd = { File.separator + "bin" + File.separator + "sh", "-c", "atom" };
 							Runtime.getRuntime().exec(cmd);
 						} else {
 							System.out.println("Your OS is not support!!");
