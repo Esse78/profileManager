@@ -12,6 +12,7 @@ public class GUI {
 
 	private String OS = System.getProperty("os.name").toLowerCase();
 	private String home = System.getProperty("user.home");
+	private String separetor = File.separator;
 
 	public GUI() {
 		Profile pr = new Profile();
@@ -44,20 +45,20 @@ public class GUI {
 			String name = null;
 			FileReader fr;
 			try {
-				fr = new FileReader(profiles.get(i).getAbsolutePath() + File.separator + "profileInfo.pi");
+				fr = new FileReader(profiles.get(i).getAbsolutePath() + separetor + "profileInfo.pi");
 				BufferedReader br = new BufferedReader(fr);
 				name = br.readLine();
 				br.close();
 				fr.close();
 			} catch (IOException e) {
 				try {
-					File profileData = new File(home + File.separator + ".atom" + File.separator + "profileInfo.pi");
+					File profileData = new File(home + separetor + ".atom" + separetor + "profileInfo.pi");
 					profileData.createNewFile();
 					PrintWriter writer = new PrintWriter(profileData, "UTF-8");
 					writer.println("Default");
 					writer.close();
 					File src = new File(this.getClass().getResource("atomIcon.png").getPath().replaceAll("%20", " "));
-					File dest = new File(home + File.separator + ".atom" + File.separator + "icon.png");
+					File dest = new File(home + separetor + ".atom" + separetor + "icon.png");
 					name = "default";
 					try {
 						Files.copy(src.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -80,7 +81,7 @@ public class GUI {
 				}
 				if (temp == null) {
 					File src = new File(this.getClass().getResource("atomIcon.png").getPath().replaceAll("%20", " "));
-					File dest = new File(home + File.separator + ".atom" + File.separator + "icon.png");
+					File dest = new File(home + separetor + ".atom" + separetor + "icon.png");
 					try {
 						Files.copy(src.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
 						temp = new File(dest.getAbsolutePath());
@@ -111,10 +112,10 @@ public class GUI {
 						if (isWindows()) {
 							Runtime.getRuntime().exec("cmd /c atom");
 						} else if (isMac()) {
-							String[] cmd = { File.separator + "bin" + File.separator + "sh", "-c", "atom" };
+							String[] cmd = { separetor + "bin" + separetor + "sh", "-c", "atom" };
 							Runtime.getRuntime().exec(cmd);
 						} else if (isUnix()) {
-							String[] cmd = { File.separator + "bin" + File.separator + "sh", "-c", "atom" };
+							String[] cmd = { separetor + "bin" + separetor + "sh", "-c", "atom" };
 							Runtime.getRuntime().exec(cmd);
 						} else {
 							System.out.println("Your OS is not support!!");

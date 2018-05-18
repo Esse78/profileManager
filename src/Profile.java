@@ -10,6 +10,7 @@ public class Profile {
 
 	private ArrayList<File> profiles;
 	private String home = System.getProperty("user.home");
+	private String separetor = File.separator;
 
 	public Profile() {
 		profiles = new ArrayList<File>();
@@ -45,7 +46,7 @@ public class Profile {
 		for (File sub : new File(home).listFiles()) {
 			String path = sub.getAbsolutePath();
 			if (sub.isDirectory() && path.substring(path.length() - 5, path.length()).equals(".atom")) {
-				File profileData = new File(sub.getAbsolutePath() + File.separator + "profileInfo.pi");
+				File profileData = new File(sub.getAbsolutePath() + separetor + "profileInfo.pi");
 				if (profileData.exists()) {
 					FileReader fr;
 					try {
@@ -54,15 +55,15 @@ public class Profile {
 						String name = br.readLine();
 						br.close();
 						fr.close();
-						File file = new File(home + File.separator + ".atom");
-						File newFile = new File(home + File.separator + ".atom-" + name);
+						File file = new File(home + separetor + ".atom");
+						File newFile = new File(home + separetor + ".atom-" + name);
 						Files.move(file.toPath(), newFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
 				} else {
 					try {
-						File file = new File(home + File.separator + ".atom");
+						File file = new File(home + separetor + ".atom");
 						if (!file.exists()) {
 							return;
 						}
@@ -71,13 +72,13 @@ public class Profile {
 						writer.println("Default");
 						writer.close();
 						File src = new File(this.getClass().getResource("atomIcon.png").getPath());
-						File dest = new File(home + File.separator + ".atom" + File.separator + "icon.png");
+						File dest = new File(home + separetor + ".atom" + separetor + "icon.png");
 						try {
 							Files.copy(src.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
-						file.renameTo(new File(home + File.separator + ".atom-default"));
+						file.renameTo(new File(home + separetor + ".atom-default"));
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -92,7 +93,7 @@ public class Profile {
 		renameAllProfile();
 		setProfiles();
 
-		String name = home + File.separator + ".atom";
+		String name = home + separetor + ".atom";
 		profiles.get(i).renameTo(new File(name));
 
 		setProfiles();
@@ -120,8 +121,8 @@ public class Profile {
 			input = JOptionPane.showInputDialog("Enter the name of the profile(cannot be empty):");
 		}
 		renameAllProfile();
-		new File(home + File.separator + ".atom").mkdir();
-		File profileData = new File(home + File.separator + ".atom" + File.separator + "profileInfo.pi");
+		new File(home + separetor + ".atom").mkdir();
+		File profileData = new File(home + separetor + ".atom" + separetor + "profileInfo.pi");
 		try {
 			profileData.createNewFile();
 			PrintWriter writer = new PrintWriter(profileData, "UTF-8");
@@ -141,7 +142,7 @@ public class Profile {
 			String name = chooser.getSelectedFile().getName();
 			name = "icon." + name.substring(name.length() - 3, name.length());
 			File src = chooser.getSelectedFile();
-			File dest = new File(home + File.separator + ".atom" + File.separator + name);
+			File dest = new File(home + separetor + ".atom" + separetor + name);
 			try {
 				Files.copy(src.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
 			} catch (IOException e) {
