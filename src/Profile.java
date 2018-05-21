@@ -89,11 +89,12 @@ public class Profile {
 		setProfiles();
 	}
 
-	public void setCurrentProfile(int i) {
+	public void setCurrentProfile(File f) {
 		renameAllProfile();
 		setProfiles();
 
 		String name = home + separetor + ".atom";
+		int i = profiles.indexOf(f);
 		profiles.get(i).renameTo(new File(name));
 
 		setProfiles();

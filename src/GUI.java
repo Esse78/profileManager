@@ -104,7 +104,7 @@ public class GUI {
 				button.setText(name);
 				System.out.println(ex);
 			}
-			final int f = i;
+			final File f = profiles.get(i);
 			button.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					pr.setCurrentProfile(f);
@@ -178,7 +178,6 @@ public class GUI {
 	}
 
 	private Dimension getScaledDimension(Dimension imgSize, Dimension boundary) {
-
 		int original_width = imgSize.width;
 		int original_height = imgSize.height;
 		int bound_width = boundary.width;
