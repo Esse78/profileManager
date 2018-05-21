@@ -90,11 +90,23 @@ public class Profile {
 	}
 
 	public void setCurrentProfile(File f) {
+		String name = "";
+		FileReader fr;
+		try {
+			fr = new FileReader(f.getAbsolutePath() + separetor + "profileInfo.pi");
+			BufferedReader br = new BufferedReader(fr);
+			name = home + separetor + ".atom-" + br.readLine();
+			br.close();
+			fr.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		renameAllProfile();
 		setProfiles();
 
-		String name = home + separetor + ".atom";
-		int i = profiles.indexOf(f);
+		int i = profiles.indexOf(new File(name));
+		name = home + separetor + ".atom";
 		profiles.get(i).renameTo(new File(name));
 
 		setProfiles();
